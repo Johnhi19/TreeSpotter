@@ -1,3 +1,6 @@
 [submodule "TreeSpotter_Frontend"]
 	path = TreeSpotter_Frontend
 	url = https://github.com/Johnhi19/TreeSpotter_Frontend.git
+[submodule "TreeSpotter_Backend"]
+	path = TreeSpotter_Backend
+	url = https://github.com/Johnhi19/TreeSpotter_Backend.git
