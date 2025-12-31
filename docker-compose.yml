@@ -1,0 +1,56 @@
+services:
+  frontend:
+    build: 
+     context: ./TreeSpotter_Frontend/tree-spotter-frontend
+     dockerfile: Dockerfile.dev
+    ports:
+      - "4200:4200"
+    networks:
+      - frontend
+  
+  backend:
+    build: 
+      context: ./TreeSpotter_Backend
+      dockerfile: Dockerfile.dev
+    environment:
+      DB_PASSWORD: example
+      DB_USER: example
+      DB_NAME: treeSpotter
+      DB_PORT: "3306"
+      DB_HOST: database
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+      - frontend
+
+  database:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: treeSpotter
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pexample"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  mysql_data:
