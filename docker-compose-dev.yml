@@ -12,18 +12,12 @@ services:
     build: 
       context: ./TreeSpotter_Backend
       dockerfile: Dockerfile.dev
-    environment:
-      DB_PASSWORD: example
-      DB_USER: example
-      DB_NAME: treeSpotter
-      DB_PORT: "3306"
-      DB_HOST: database
+    env_file:
+      - env/backend.env
     depends_on:
       database:
         condition: service_healthy
         restart: true
-    ports:
-      - "8080:8080"
     networks:
       - backend
       - frontend
@@ -31,11 +25,8 @@ services:
   database:
     image: mysql
     restart: always
-    environment:
-      MYSQL_USER: example
-      MYSQL_PASSWORD: example
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: treeSpotter
+    env_file:
+      - env/database.env
     volumes:
       - mysql_data:/var/lib/mysql
       - ./db/init:/docker-entrypoint-initdb.d
