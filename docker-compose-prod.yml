@@ -4,7 +4,7 @@ services:
      context: ./TreeSpotter_Frontend/tree-spotter-frontend
      dockerfile: Dockerfile.prod
     ports:
-      - "4200:4200"
+      - 127.0.0.1:4200:4200
     networks:
       - frontend
   
@@ -12,13 +12,8 @@ services:
     build: 
       context: ./TreeSpotter_Backend
       dockerfile: Dockerfile.prod
-    environment:
-      JWT_SECRET: exampleprodsecret
-      DB_PASSWORD: example
-      DB_USER: example
-      DB_NAME: treeSpotter
-      DB_PORT: "3306"
-      DB_HOST: database
+    env_file:
+      - env/backend.prod.env
     depends_on:
       database:
         condition: service_healthy
@@ -30,11 +25,8 @@ services:
   database:
     image: mysql
     restart: always
-    environment:
-      MYSQL_USER: example
-      MYSQL_PASSWORD: example
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: treeSpotter
+    env_file:
+      - env/database.prod.env
     volumes:
       - mysql_data:/var/lib/mysql
       - ./db/init:/docker-entrypoint-initdb.d
