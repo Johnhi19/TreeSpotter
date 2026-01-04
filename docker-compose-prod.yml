@@ -3,6 +3,8 @@ services:
     build: 
      context: ./TreeSpotter_Frontend/tree-spotter-frontend
      dockerfile: Dockerfile.prod
+    depends_on:
+      - backend
     ports:
       - 127.0.0.1:4200:4200
     networks:
