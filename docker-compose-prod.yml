@@ -1,6 +1,6 @@
 services:
   frontend:
-    build: 
+    build:
      context: ./TreeSpotter_Frontend/tree-spotter-frontend
      dockerfile: Dockerfile.prod
     depends_on:
@@ -9,9 +9,9 @@ services:
       - 127.0.0.1:4200:4200
     networks:
       - frontend
-  
+
   backend:
-    build: 
+    build:
       context: ./TreeSpotter_Backend
       dockerfile: Dockerfile.prod
     env_file:
