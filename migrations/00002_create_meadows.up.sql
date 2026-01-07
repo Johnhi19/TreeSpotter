@@ -1,4 +1,4 @@
-CREATE TABLE `meadows` (
+CREATE TABLE IF NOT EXISTS `meadows` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
     `location` varchar(255) DEFAULT NULL COMMENT 'Address of the meadow',
     `name` varchar(255) DEFAULT NULL,

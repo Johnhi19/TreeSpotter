@@ -1,4 +1,4 @@
-CREATE TABLE `trees` (
+CREATE TABLE IF NOT EXISTS `trees` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
     `plantDate` datetime DEFAULT NULL COMMENT 'Planting date',
     `meadowId` int DEFAULT NULL COMMENT 'Meadow ID',

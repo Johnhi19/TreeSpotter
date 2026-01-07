@@ -1,4 +1,4 @@
-CREATE TABLE `images` (
+CREATE TABLE IF NOT EXISTS `images` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
     `path` varchar(255) NOT NULL,
     `description` varchar(255) DEFAULT NULL,
