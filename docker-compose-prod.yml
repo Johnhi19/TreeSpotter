@@ -17,12 +17,25 @@ services:
     env_file:
       - env/backend.prod.env
     depends_on:
-      database:
-        condition: service_healthy
-        restart: true
+      migrate:
+        condition: service_completed_successfully
     networks:
       - backend
       - frontend
+  
+  migrate:
+    image: migrate/migrate
+    entrypoint: ["/migrate.sh"]
+    volumes:
+      - ./migrations:/migrations
+      - ./migrate.sh:/migrate.sh
+    env_file:
+      - env/migrate.prod.env
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - backend
 
   database:
     image: mysql
@@ -31,9 +44,8 @@ services:
       - env/database.prod.env
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db/init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pexample"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$$MYSQL_PASSWORD"]
       interval: 5s
       timeout: 5s
       retries: 10
