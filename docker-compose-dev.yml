@@ -15,12 +15,25 @@ services:
     env_file:
       - env/backend.env
     depends_on:
-      database:
-        condition: service_healthy
-        restart: true
+      migrate:
+        condition: service_completed_successfully
     networks:
       - backend
       - frontend
+    
+  migrate:
+    image: migrate/migrate
+    entrypoint: ["/migrate.sh"]
+    volumes:
+      - ./migrations:/migrations
+      - ./migrate.sh:/migrate.sh
+    env_file:
+      - env/migrate.env
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - backend
 
   database:
     image: mysql
@@ -29,7 +42,6 @@ services:
       - env/database.env
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db/init:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pexample"]
       interval: 5s
