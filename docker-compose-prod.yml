@@ -16,6 +16,7 @@ services:
       dockerfile: Dockerfile.prod
     env_file:
       - env/backend.prod.env
+      - env/migrate.prod.env
     depends_on:
       migrate:
         condition: service_completed_successfully
