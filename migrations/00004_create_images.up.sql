@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `images` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
     `path` varchar(255) NOT NULL,
     `description` varchar(255) DEFAULT NULL,
-    `date` date DEFAULT NULL,
+    `datetime` datetime DEFAULT CURRENT_TIMESTAMP,
     `user_id` int NOT NULL,
     `tree_id` int DEFAULT NULL,
     PRIMARY KEY (`id`),
