@@ -3,6 +3,9 @@ services:
     build: 
      context: ./TreeSpotter_Frontend/tree-spotter-frontend
      dockerfile: Dockerfile.dev
+    volumes:
+      - ./TreeSpotter_Frontend/tree-spotter-frontend:/app
+      - /app/node_modules
     ports:
       - "4200:4200"
     networks:
@@ -15,6 +18,8 @@ services:
     env_file:
       - env/backend.env
       - env/migrate.env
+    volumes:
+      - ./uploads/trees:/app/uploads
     depends_on:
       migrate:
         condition: service_completed_successfully
